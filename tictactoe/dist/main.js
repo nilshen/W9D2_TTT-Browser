@@ -35,7 +35,7 @@ eval("const Board = __webpack_require__(/*! ./board */ \"./src/board.js\");\ncon
   \**********************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const View = __webpack_require__ (/*! ./ttt-view */ \"./src/ttt-view.js\")\nconst Game = __webpack_require__ (/*! ./game */ \"./src/game.js\")\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const newGame = new Game()\n  const newView = new View(newGame)\n\n  newView.setupBoard()\n});\n\n\n//# sourceURL=webpack://tictactoe/./src/index.js?");
+eval("const View = __webpack_require__ (/*! ./ttt-view */ \"./src/ttt-view.js\")\nconst Game = __webpack_require__ (/*! ./game */ \"./src/game.js\")\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const el = document.querySelector(\".ttt\")\n  const newGame = new Game()\n  const newView = new View(newGame, el)\n\n  newView.setupBoard()\n  newView.handleClick(event);\n  \n});\n\n\n\n\n//# sourceURL=webpack://tictactoe/./src/index.js?");
 
 /***/ }),
 
@@ -55,7 +55,7 @@ eval("\nconst MoveError = function (msg) { this.msg = msg; };\n\n// MoveError re
   \*************************/
 /***/ ((module) => {
 
-eval("class View {\n  constructor(game, el) {}\n\n  setupBoard() {\n    // game.board\n    const ttt = document.querySelector('.ttt')\n    let ul = document.createElement(\"ul\")\n  \n    for (let i = 0; i < 3; i++) {\n      // li.setAttribute\n      for (let j=0; j < 3; j++) {\n        let li = document.createElement(\"li\")\n        li.setAttribute(\"data-pos\", `[${i},${j}]`)\n        ttt.appendChild(li)\n      }\n    }\n// think we create a for loop\n// append into an array?\n// add an attribute for the position??\n  }\n  \n  bindEvents() {}\n\n  handleClick(e) {}\n\n  makeMove(square) {}\n\n}\n\nmodule.exports = View;\n\n\n//# sourceURL=webpack://tictactoe/./src/ttt-view.js?");
+eval("class View {\n\n  constructor(game, el) {\n    this.game = game;\n    this.el = el;\n  }\n\n\n\n  setupBoard() {\n    // game.board\n    // const ttt = document.querySelector('.ttt');\n    let ul = document.createElement(\"ul\");\n    // const grid = [];\n    let counter = 1;\n    for (let i = 0; i < 3; i++) {\n      // li.setAttribute\n      for (let j = 0; j < 3; j++) {\n\n        let li = document.createElement(\"li\");\n        li.setAttribute(\"data-pos\", `[${i},${j}]`);\n        li.setAttribute(\"id\", `${counter}`);\n\n        // grid.push(li);\n        counter += 1;\n        this.el.appendChild(li);\n      }\n    }\n    // think we create a for loop\n    // append into an array?\n    // add an attribute for the position??\n  }\n\n  bindEvents() { }\n\n  handleClick(e) {\n    let grid = Array.from(document.querySelectorAll(\"li\"));\n    // console.log(e)\n    grid.map(box => {\n      let pos = JSON.parse(box.getAttribute(\"data-pos\"))   //\"[0,0]\"\n      // console.log(pos)\n      box.addEventListener(\"click\", this.makeMove(pos));\n    });\n    // this.el.addEventListener(\"click\", console.log(e.target))\n  }\n\n  makeMove(square) { }\n  \n}\n\nmodule.exports = View;\n\n\n//# sourceURL=webpack://tictactoe/./src/ttt-view.js?");
 
 /***/ })
 
